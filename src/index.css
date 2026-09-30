@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* Design tokens: change colours and font here */
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-ink: #152033;
+  --color-muted: #566174;
+  --color-line: #E1E5EB;
+  --color-paper: #F5F7F9;
+  --color-accent: #1D5C8C;
+  --color-accent-soft: #E7EFF6;
+  --color-point: #3E8C82;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 76px;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Gentle reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero chart: trend line draws once on load */
+.trend-line {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: draw 1.4s 0.4s ease-out forwards;
+}
+.chart-point {
+  opacity: 0;
+  animation: pop 0.4s ease-out forwards;
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes pop { to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+  .trend-line { animation: none; stroke-dashoffset: 0; }
+  .chart-point { animation: none; opacity: 1; }
+}
